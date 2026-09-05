@@ -1,0 +1,309 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import "@/styles/article.css";
+import { formatDate } from "@/utils/dates";
+
+interface Props {
+  title: string;
+  description?: string;
+  publishedAt: Date;
+  updatedAt?: Date;
+  tags?: string[];
+  readingTime?: string;
+  links?: Array<{ text: string; url: string; hostname: string }>;
+  canonicalUrl?: string;
+  prevPost?: { title: string; slug: string } | null;
+  nextPost?: { title: string; slug: string } | null;
+}
+
+const {
+  title,
+  description,
+  publishedAt,
+  updatedAt,
+  tags = [],
+  readingTime,
+  links = [],
+  canonicalUrl,
+  prevPost,
+  nextPost,
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  ogType="article"
+  publishedAt={publishedAt}
+  updatedAt={updatedAt}
+>
+  <article class="content-shell article-page">
+    <header class="article-header">
+      <h1 class="article-title">{title}</h1>
+      <div class="article-meta">
+        <time datetime={publishedAt.toISOString()}>
+          {formatDate(publishedAt)}
+        </time>
+        {readingTime && <span class="meta-sep">·</span>}
+        {readingTime && <span>{readingTime}</span>}
+        {tags.length > 0 && <span class="meta-sep">·</span>}
+        {
+          tags.length > 0 && (
+            <span class="article-tags">
+              {tags.map((tag, i) => (
+                <>
+                  {i > 0 && <span class="tag-sep"> · </span>}
+                  <a
+                    href={`/writing/topic/${tag.toLowerCase().replace(/\s+/g, "-")}`}
+                    class="tag"
+                  >
+                    {tag}
+                  </a>
+                </>
+              ))}
+            </span>
+          )
+        }
+      </div>
+    </header>
+
+    <div class="article-body">
+      <slot />
+    </div>
+
+    <footer class="article-footer">
+      {links.length > 0 && (
+        <section class="links-section">
+          <p class="links-label">Links</p>
+          <ol class="links-list">
+            {links.map((link) => (
+              <li class="links-item">
+                <a href={link.url} target="_blank" rel="noopener noreferrer" class="links-text">
+                  {link.text}
+                </a>
+                <span class="links-host">{link.hostname}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+
+      {
+        updatedAt && (
+          <p class="updated-note">
+            Last updated{" "}
+            <time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time>
+          </p>
+        )
+      }
+
+      {
+        (prevPost || nextPost) && (
+          <nav class="post-nav" aria-label="Article navigation">
+            <div class="post-nav-prev">
+              {prevPost && (
+                <a href={`/writing/${prevPost.slug}`} class="post-nav-link">
+                  <span class="post-nav-dir">← Previous</span>
+                  <span class="post-nav-title">{prevPost.title}</span>
+                </a>
+              )}
+            </div>
+            <div class="post-nav-next">
+              {nextPost && (
+                <a href={`/writing/${nextPost.slug}`} class="post-nav-link">
+                  <span class="post-nav-dir">Next →</span>
+                  <span class="post-nav-title">{nextPost.title}</span>
+                </a>
+              )}
+            </div>
+          </nav>
+        )
+      }
+
+      <div class="article-footer-links">
+        <a href="/rss.xml" class="footer-link">RSS</a>
+        <span class="meta-sep">·</span>
+        <a href="mailto:ahmedhossamdev1@gmail.com" class="footer-link">Email</a>
+        <span class="meta-sep">·</span>
+        <a
+          href="https://github.com/Ahmedhossamdev"
+          class="footer-link"
+          rel="noopener noreferrer"
+          target="_blank"
+        >GitHub</a>
+        <span class="meta-sep">·</span>
+        <a
+          href="https://x.com/Ahmedhossamdev"
+          class="footer-link"
+          rel="noopener noreferrer"
+          target="_blank"
+        >X</a>
+      </div>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-page {
+    padding-block: 3rem;
+  }
+
+  .article-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .article-title {
+    font-size: clamp(1.875rem, 5vw, 2.625rem);
+    font-weight: 700;
+    color: var(--heading);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.875rem;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .meta-sep {
+    color: var(--border);
+  }
+
+  .tag {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+
+  .tag:hover {
+    color: var(--text);
+  }
+
+  .article-footer {
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .links-section {
+    margin-bottom: 2rem;
+  }
+
+  .links-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .links-list {
+    list-style: decimal;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .links-item {
+    font-size: 0.875rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .links-text {
+    color: var(--text);
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+
+  .links-text:hover {
+    color: var(--link-hover);
+  }
+
+  .links-host {
+    color: var(--muted);
+    font-size: 0.8125rem;
+  }
+
+  .updated-note {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .post-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .post-nav-next {
+    text-align: right;
+  }
+
+  .post-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    text-decoration: none;
+    color: var(--muted);
+    transition: color 120ms ease;
+  }
+
+  .post-nav-link:hover {
+    color: var(--text);
+  }
+
+  .post-nav-dir {
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .post-nav-title {
+    font-size: 0.9375rem;
+    color: var(--link);
+  }
+
+  .post-nav-link:hover .post-nav-title {
+    color: var(--link-hover);
+  }
+
+  .article-footer-links {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+  }
+
+  .footer-link {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+
+  .footer-link:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 560px) {
+    .post-nav {
+      grid-template-columns: 1fr;
+    }
+
+    .post-nav-next {
+      text-align: left;
+    }
+  }
+</style>

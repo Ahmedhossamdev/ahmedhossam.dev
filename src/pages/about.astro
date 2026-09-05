@@ -1,0 +1,163 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="About"
+  description="Ahmed Hossam, software engineer, open source contributor, curious about how things work."
+>
+  <div class="content-shell about-page">
+    <h1 class="page-title">About</h1>
+
+    <div class="about-body">
+      <p>
+        I'm Ahmed Hossam, a software engineer at the Open Transit Software
+        Foundation, where I work on
+        <a href="https://github.com/OneBusAway" target="_blank" rel="noopener noreferrer">OneBusAway</a>,
+        an open source transit project that helps millions of riders every day
+        get to work, see their families, and get where they need to go.
+      </p>
+
+      <p>
+        I first joined OneBusAway through Google Summer of Code in 2024. I kept
+        contributing after that and eventually joined the team. In 2026 I came
+        back as a GSoC mentor, helping new contributors find their footing in
+        the project the same way I once did.
+      </p>
+
+      <p>
+        Most of my work is around backend systems, APIs, open source, and lately
+        a lot of Go. I like understanding how things work, especially when
+        something makes me genuinely curious. When that happens, I tend to go
+        pretty deep: reading, building, breaking things, asking questions, and
+        trying again until it makes sense.
+      </p>
+
+      <p>
+        This site is mostly a place for that. I write about software, things I'm
+        learning, projects I'm working on, and things I notice. I also write
+        about my interests, life, philosophy, and whatever else happens to be on
+        my mind.
+      </p>
+
+      <p class="explore-label">A few links to explore:</p>
+      <ul class="explore-list">
+        <li><a href="/writing">Writing</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/now">What I'm doing now</a></li>
+      </ul>
+
+      <h2>Elsewhere</h2>
+      <p>You can receive updates from me via email or follow me:</p>
+      <ul class="elsewhere-list">
+        <li>
+          <span class="elsewhere-label">RSS feed</span>
+          <a href="/rss.xml">ahmedhossam.me/rss.xml</a>
+        </li>
+        <li>
+          <span class="elsewhere-label">Email</span>
+          <a href="mailto:ahmedhossamdev1@gmail.com">ahmedhossamdev1@gmail.com</a>
+        </li>
+        <li>
+          <span class="elsewhere-label">X</span>
+          <a href="https://x.com/Ahmedhossamdev" target="_blank" rel="noopener noreferrer">@Ahmedhossamdev</a>
+        </li>
+        <li>
+          <span class="elsewhere-label">GitHub</span>
+          <a href="https://github.com/Ahmedhossamdev" target="_blank" rel="noopener noreferrer">@Ahmedhossamdev</a>
+        </li>
+        <li>
+          <span class="elsewhere-label">Bluesky</span>
+          <a href="https://bsky.app/profile/ahmedhossamdev.bsky.social" target="_blank" rel="noopener noreferrer">@ahmedhossamdev.bsky.social</a>
+        </li>
+        <li>
+          <span class="elsewhere-label">LinkedIn</span>
+          <a href="https://www.linkedin.com/in/ahmedhossamdev/" target="_blank" rel="noopener noreferrer">/in/ahmedhossamdev</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page {
+    padding-block: 3rem;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--heading);
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+  }
+
+  .about-body {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text);
+  }
+
+  .about-body p {
+    margin-bottom: 1.25rem;
+  }
+
+  .about-body h2 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--heading);
+    margin-top: 2rem;
+    margin-bottom: 0.625rem;
+  }
+
+  .about-body ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .explore-label {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .explore-list {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    margin-bottom: 2rem;
+  }
+
+  .explore-list li {
+    font-size: 0.9375rem;
+  }
+
+  .elsewhere-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .elsewhere-list li {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    font-size: 0.9375rem;
+  }
+
+  .elsewhere-list li::before {
+    display: none;
+  }
+
+  .elsewhere-label {
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+</style>

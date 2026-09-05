@@ -1,0 +1,167 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getAllProjects } from "@/utils/content";
+
+const projects = await getAllProjects();
+---
+
+<BaseLayout
+  title="Projects"
+  description="Open source work and side projects by Ahmed Hossam."
+>
+  <div class="content-shell projects-page">
+    <header class="page-header">
+      <h1 class="page-title">Projects</h1>
+      <p class="page-desc">
+        Open source work and things I build. For more context, see <a href="/about">About</a>.
+      </p>
+    </header>
+
+    {
+      projects.length === 0 ? (
+        <p class="empty">Nothing here yet.</p>
+      ) : (
+        <ul class="project-list" role="list">
+          {projects.map((project) => {
+            return (
+              <li class="project-item">
+                <div class="project-header">
+                  <h2 class="project-name">{project.data.name}</h2>
+                  {project.data.status && (
+                    <span class={`project-status status-${project.data.status}`}>
+                      {project.data.status}
+                    </span>
+                  )}
+                </div>
+                <p class="project-desc">{project.data.description}</p>
+                {project.data.technologies.length > 0 && (
+                  <p class="project-tech">
+                    {project.data.technologies.join(" · ")}
+                  </p>
+                )}
+                <div class="project-links">
+                  {project.data.repository && (
+                    <a
+                      href={project.data.repository}
+                      class="project-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Repository
+                    </a>
+                  )}
+                  {project.data.website && (
+                    <a
+                      href={project.data.website}
+                      class="project-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Website
+                    </a>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .projects-page {
+    padding-block: 3rem;
+  }
+
+  .page-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--heading);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .page-desc {
+    font-size: 0.9375rem;
+    color: var(--muted);
+  }
+
+  .project-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-item {
+    padding-block: 1.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project-item:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .project-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-name {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--heading);
+  }
+
+  .project-status {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.2em 0.5em;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .project-desc {
+    font-size: 0.9375rem;
+    color: var(--muted);
+    margin-bottom: 0.625rem;
+    line-height: 1.6;
+  }
+
+  .project-tech {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .project-link {
+    font-size: 0.8125rem;
+    color: var(--link);
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+
+  .project-link:hover {
+    color: var(--link-hover);
+  }
+
+  .empty {
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+</style>

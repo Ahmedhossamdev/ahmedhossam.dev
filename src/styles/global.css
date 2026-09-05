@@ -1,0 +1,243 @@
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
+@import "tailwindcss";
+
+/* Flexoki palette — https://stephango.com/flexoki */
+:root {
+  --flexoki-black:    #100F0F;
+  --flexoki-paper:    #FFFCF0;
+  --flexoki-50:       #F2F0E5;
+  --flexoki-100:      #E6E4D9;
+  --flexoki-150:      #DAD8CE;
+  --flexoki-200:      #CECDC3;
+  --flexoki-300:      #B7B5AC;
+  --flexoki-400:      #9F9D96;
+  --flexoki-500:      #878580;
+  --flexoki-600:      #6F6E69;
+  --flexoki-700:      #575653;
+  --flexoki-800:      #403E3C;
+  --flexoki-850:      #343331;
+  --flexoki-900:      #282726;
+  --flexoki-950:      #1C1B1A;
+
+  --flexoki-cyan-200: #87D3C3;
+  --flexoki-cyan-400: #3AA99F;
+  --flexoki-cyan-600: #24837B;
+
+  --flexoki-orange-400: #DA702C;
+  --flexoki-orange-600: #BC5215;
+}
+
+/* Dark mode — default */
+:root {
+  color-scheme: dark;
+
+  --bg:             var(--flexoki-950);
+  --surface:        var(--flexoki-900);
+  --surface-subtle: var(--flexoki-black);
+  --code-bg:        var(--flexoki-black);
+
+  --text:    var(--flexoki-200);
+  --heading: var(--flexoki-50);
+  --muted:   var(--flexoki-500);
+
+  --border: var(--flexoki-850);
+
+  --link:          var(--flexoki-cyan-400);
+  --link-hover:    var(--flexoki-cyan-200);
+  --focus:         var(--flexoki-cyan-400);
+  --color-warning: var(--flexoki-orange-400);
+
+  --content-width: 700px;
+  --page-width: 1040px;
+
+  --radius-sm: 4px;
+  --radius: 6px;
+
+  --font-sans: "InterVariable", Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains MonoVariable", "JetBrains Mono", "SFMono-Regular",
+    Consolas, "Liberation Mono", monospace;
+}
+
+/* Light mode — system preference (unless explicitly set to dark) */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+
+    --bg:             var(--flexoki-50);
+    --surface:        var(--flexoki-100);
+    --surface-subtle: var(--flexoki-50);
+    --code-bg:        var(--flexoki-100);
+
+    --text:    var(--flexoki-900);
+    --heading: var(--flexoki-black);
+    --muted:   var(--flexoki-500);
+
+    --border: var(--flexoki-150);
+
+    --link:          var(--flexoki-cyan-600);
+    --link-hover:    var(--flexoki-cyan-400);
+    --focus:         var(--flexoki-cyan-600);
+    --color-warning: var(--flexoki-orange-600);
+  }
+}
+
+/* Light mode — explicit user choice */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg:             var(--flexoki-paper);
+  --surface:        var(--flexoki-50);
+  --surface-subtle: var(--flexoki-paper);
+  --code-bg:        var(--flexoki-50);
+
+  --text:    var(--flexoki-900);
+  --heading: var(--flexoki-black);
+  --muted:   var(--flexoki-500);
+
+  --border: var(--flexoki-150);
+
+  --link:          var(--flexoki-cyan-600);
+  --link-hover:    var(--flexoki-cyan-400);
+  --focus:         var(--flexoki-cyan-600);
+  --color-warning: var(--flexoki-orange-600);
+}
+
+/* Theme toggle icon visibility */
+.theme-toggle .icon-moon { display: block; }
+.theme-toggle .icon-sun  { display: none; }
+
+:root[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-sun  { display: block; }
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .theme-toggle .icon-moon { display: none; }
+  :root:not([data-theme="dark"]) .theme-toggle .icon-sun  { display: block; }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 999;
+  padding: 0.5rem 1rem;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.875rem;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Focus */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Links */
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
+  text-underline-offset: 3px;
+  transition:
+    color 120ms ease,
+    text-decoration-color 120ms ease;
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration-color: var(--link-hover);
+}
+
+/* Nav links — plain text look */
+.nav-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 450;
+  letter-spacing: 0.01em;
+  transition: color 120ms ease;
+}
+
+.nav-link:hover,
+.nav-link[aria-current="page"] {
+  color: var(--text);
+}
+
+/* Page shell */
+.page-shell {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.content-shell {
+  width: 100%;
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+/* Horizontal rule */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin-block: 2rem;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,207 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getPublishedWriting } from "@/utils/content";
+import { formatDateShort, getYear } from "@/utils/dates";
+
+export async function getStaticPaths() {
+  const posts = await getPublishedWriting();
+
+  // Collect all unique tags
+  const tagSet = new Set<string>();
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      tagSet.add(tag);
+    }
+  }
+
+  return [...tagSet].map((tag) => {
+    const slug = tag.toLowerCase().replace(/\s+/g, "-");
+    const tagPosts = posts.filter((p) => p.data.tags.includes(tag));
+    return {
+      params: { tag: slug },
+      props: { tag, posts: tagPosts },
+    };
+  });
+}
+
+const { tag, posts } = Astro.props;
+
+const byYear = posts.reduce<Record<number, typeof posts>>((acc, post) => {
+  const year = getYear(post.data.publishedAt);
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(post);
+  return acc;
+}, {});
+
+const years = Object.keys(byYear)
+  .map(Number)
+  .sort((a, b) => b - a);
+---
+
+<BaseLayout
+  title={tag}
+  description={`All posts tagged "${tag}" by Ahmed Hossam.`}
+>
+  <div class="content-shell topic-page">
+    <header class="page-header">
+      <div class="breadcrumb">
+        <a href="/writing" class="back-link">Writing</a>
+        <span class="breadcrumb-sep" aria-hidden="true">›</span>
+        <span class="breadcrumb-current">Topics</span>
+      </div>
+      <h1 class="page-title">{tag}</h1>
+      <p class="post-count">
+        {posts.length}
+        {posts.length === 1 ? "post" : "posts"}
+      </p>
+    </header>
+
+    {
+      years.map((year) => (
+        <div class="year-group">
+          <h2 class="year-label">{year}</h2>
+          <ul class="post-list" role="list">
+            {byYear[year].map((post) => (
+              <li class="post-row">
+                <time
+                  class="post-date"
+                  datetime={post.data.publishedAt.toISOString()}
+                >
+                  {formatDateShort(post.data.publishedAt)}
+                </time>
+                <a href={`/writing/${post.slug}`} class="post-title">
+                  {post.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+
+    <div class="topic-footer">
+      <a href="/writing" class="all-topics-link">← All writing</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .topic-page {
+    padding-block: 3rem;
+  }
+
+  .page-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+    margin-bottom: 0.875rem;
+  }
+
+  .back-link {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+
+  .back-link:hover {
+    color: var(--text);
+  }
+
+  .breadcrumb-sep {
+    color: var(--border);
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--heading);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.375rem;
+  }
+
+  .post-count {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .year-group {
+    margin-bottom: 2rem;
+  }
+
+  .year-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.625rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .post-list {
+    list-style: none;
+  }
+
+  .post-row {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding-block: 0.625rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  }
+
+  .post-row:last-child {
+    border-bottom: none;
+  }
+
+  .post-date {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .post-title {
+    font-size: 0.9375rem;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 450;
+    transition: color 120ms ease;
+  }
+
+  .post-title:hover {
+    color: var(--link-hover);
+  }
+
+  .topic-footer {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .all-topics-link {
+    font-size: 0.875rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+
+  .all-topics-link:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 480px) {
+    .post-row {
+      grid-template-columns: 4.25rem 1fr;
+      gap: 1rem;
+    }
+  }
+</style>

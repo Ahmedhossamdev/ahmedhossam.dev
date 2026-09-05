@@ -1,0 +1,78 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="page-shell">
+    <div class="footer-inner">
+      <span class="footer-copy">© {year} Ahmed Hossam</span>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="/projects" class="footer-link">Projects</a>
+        <a href="/rss.xml" class="footer-link">RSS</a>
+        <a
+          href="https://github.com/Ahmedhossamdev"
+          class="footer-link"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://www.linkedin.com/in/ahmedhossamdev/"
+          class="footer-link"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          LinkedIn
+        </a>
+        <a
+          href="https://x.com/Ahmedhossamdev"
+          class="footer-link"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          X
+        </a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: 2rem;
+    margin-top: 4rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-copy {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-link {
+    font-size: 0.875rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+
+  .footer-link:hover {
+    color: var(--text);
+  }
+</style>
