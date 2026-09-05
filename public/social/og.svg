@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title">
+  <title id="title">Ahmed Hossam monogram</title>
+  <rect width="1200" height="630" fill="#FFFCF0"/>
+  <g transform="translate(344 59)" fill="#173B3A">
+    <path d="M78 86h82v24h-54v292h54v24H78z"/>
+    <text x="256" y="351" font-family="Georgia, 'Times New Roman', serif" font-size="286" text-anchor="middle">a</text>
+    <path d="M352 86h82v340h-82v-24h54V110h-54z"/>
+  </g>
+</svg>

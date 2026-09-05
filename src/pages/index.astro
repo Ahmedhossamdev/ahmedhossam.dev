@@ -16,7 +16,7 @@ function archiveDate(date: Date): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
-  return `${year} · ${month} · ${day}`;
+  return `${year}·${month}·${day}`;
 }
 
 function fullDate(date: Date): string {
@@ -191,8 +191,8 @@ function fullDate(date: Date): string {
 
   .archive-row {
     display: grid;
-    grid-template-columns: 7.5rem 1fr;
-    gap: 1rem;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem;
     align-items: baseline;
     padding-block: 0.3125rem;
   }
@@ -217,8 +217,18 @@ function fullDate(date: Date): string {
 
   @media (max-width: 480px) {
     .archive-row {
-      grid-template-columns: 6rem 1fr;
-      gap: 0.75rem;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .archive-date {
+      display: none;
+    }
+
+    .archive-title::before {
+      content: "·";
+      color: var(--muted);
+      margin-right: 0.4rem;
     }
   }
 </style>
