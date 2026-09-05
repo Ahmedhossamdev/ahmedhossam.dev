@@ -2,27 +2,46 @@
 @import "@fontsource-variable/jetbrains-mono";
 @import "tailwindcss";
 
-/* Gruvbox — https://github.com/morhetz/gruvbox */
+/* Flexoki — https://stephango.com/flexoki */
+:root {
+  --flexoki-black:    #100F0F;
+  --flexoki-paper:    #FFFCF0;
+  --flexoki-50:       #F2F0E5;
+  --flexoki-100:      #E6E4D9;
+  --flexoki-150:      #DAD8CE;
+  --flexoki-200:      #CECDC3;
+  --flexoki-500:      #878580;
+  --flexoki-850:      #343331;
+  --flexoki-900:      #282726;
+  --flexoki-950:      #1C1B1A;
 
-/* Dark mode — Gruvbox Dark */
+  --flexoki-cyan-200: #87D3C3;
+  --flexoki-cyan-400: #3AA99F;
+  --flexoki-cyan-600: #24837B;
+
+  --flexoki-orange-400: #DA702C;
+  --flexoki-orange-600: #BC5215;
+}
+
+/* Dark mode — default */
 :root {
   color-scheme: dark;
 
-  --bg:             #282828;
-  --surface:        #3c3836;
-  --surface-subtle: #1d2021;
-  --code-bg:        #3c3836;
+  --bg:             var(--flexoki-950);
+  --surface:        var(--flexoki-900);
+  --surface-subtle: var(--flexoki-black);
+  --code-bg:        var(--flexoki-black);
 
-  --text:    #ebdbb2;
-  --heading: #fbf1c7;
-  --muted:   #928374;
+  --text:    var(--flexoki-200);
+  --heading: var(--flexoki-50);
+  --muted:   var(--flexoki-500);
 
-  --border: #504945;
+  --border: var(--flexoki-850);
 
-  --link:          #83a598;
-  --link-hover:    #8ec07c;
-  --focus:         #83a598;
-  --color-warning: #fabd2f;
+  --link:          var(--flexoki-cyan-400);
+  --link-hover:    var(--flexoki-cyan-200);
+  --focus:         var(--flexoki-cyan-400);
+  --color-warning: var(--flexoki-orange-400);
 
   --content-width: 700px;
   --page-width: 1040px;
@@ -36,48 +55,48 @@
     Consolas, "Liberation Mono", monospace;
 }
 
-/* Light mode — Gruvbox Light (system preference) */
+/* Light mode — system preference */
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
     color-scheme: light;
 
-    --bg:             #fbf1c7;
-    --surface:        #f2e5bc;
-    --surface-subtle: #fffdd0;
-    --code-bg:        #f2e5bc;
+    --bg:             var(--flexoki-50);
+    --surface:        var(--flexoki-100);
+    --surface-subtle: var(--flexoki-50);
+    --code-bg:        var(--flexoki-100);
 
-    --text:    #3c3836;
-    --heading: #282828;
-    --muted:   #928374;
+    --text:    var(--flexoki-900);
+    --heading: var(--flexoki-black);
+    --muted:   var(--flexoki-500);
 
-    --border: #d5c4a1;
+    --border: var(--flexoki-150);
 
-    --link:          #076678;
-    --link-hover:    #427b58;
-    --focus:         #076678;
-    --color-warning: #b57614;
+    --link:          var(--flexoki-cyan-600);
+    --link-hover:    var(--flexoki-cyan-400);
+    --focus:         var(--flexoki-cyan-600);
+    --color-warning: var(--flexoki-orange-600);
   }
 }
 
-/* Light mode — Gruvbox Light (explicit user choice) */
+/* Light mode — explicit user choice */
 :root[data-theme="light"] {
   color-scheme: light;
 
-  --bg:             #fbf1c7;
-  --surface:        #f2e5bc;
-  --surface-subtle: #fffdd0;
-  --code-bg:        #f2e5bc;
+  --bg:             var(--flexoki-50);
+  --surface:        var(--flexoki-100);
+  --surface-subtle: var(--flexoki-50);
+  --code-bg:        var(--flexoki-100);
 
-  --text:    #3c3836;
-  --heading: #282828;
-  --muted:   #928374;
+  --text:    var(--flexoki-900);
+  --heading: var(--flexoki-black);
+  --muted:   var(--flexoki-500);
 
-  --border: #d5c4a1;
+  --border: var(--flexoki-150);
 
-  --link:          #076678;
-  --link-hover:    #427b58;
-  --focus:         #076678;
-  --color-warning: #b57614;
+  --link:          var(--flexoki-cyan-600);
+  --link-hover:    var(--flexoki-cyan-400);
+  --focus:         var(--flexoki-cyan-600);
+  --color-warning: var(--flexoki-orange-600);
 }
 
 /* Theme toggle icon visibility */
