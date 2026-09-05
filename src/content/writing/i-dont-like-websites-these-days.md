@@ -40,6 +40,7 @@ It's the same reason I use Linux. The terminal doesn't compete for your attentio
 
 These are the kind of sites I keep coming back to, and the kind I want this site to be.
 
+- ★ [Ibrahim Abou El-Anin](https://blog.ibrahimabouelanin.workers.dev/): beautifully written technical posts with animated, interactive visualizations that actually help you understand the idea.
 - [Steph Ango](https://stephango.com/): minimal, writing-first, mixes software and personal topics.
 - [Derek Sivers](https://sive.rs/): barely any design, mostly writing about programming, life, and books.
 - [Julia Evans](https://jvns.ca/): a simple technical blog about things she's learning.
