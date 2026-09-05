@@ -1,139 +1,224 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getPublishedWriting } from "@/utils/content";
-import { formatDateShort, getYear } from "@/utils/dates";
+import { getPublishedWriting, getReadingTime } from "@/utils/content";
 
 const posts = await getPublishedWriting();
+const latest = posts[0];
+const latestReadingTime = latest ? getReadingTime(latest.body) : null;
+
+const tagSet = new Set<string>();
+for (const post of posts) {
+  for (const tag of post.data.tags) tagSet.add(tag);
+}
+const topics = [...tagSet].sort((a, b) => a.localeCompare(b));
+
+function archiveDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year} · ${month} · ${day}`;
+}
+
+function fullDate(date: Date): string {
+  return date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 ---
 
-<BaseLayout title="Ahmed Hossam">
-  <div class="content-shell home-page">
-    <section class="home-section">
-      <h2 class="section-label">Writing</h2>
-      {posts.length > 0 ? (
-        <ul class="post-list" role="list">
+<BaseLayout
+  title="Ahmed Hossam"
+  description="Software, open source, things I'm learning, and whatever else gets stuck in my head."
+>
+  <div class="content-shell writing-page">
+
+    {latest && (
+      <section class="latest-section">
+        <p class="section-label">Latest</p>
+        <h2 class="latest-title">
+          <a href={`/writing/${latest.slug}`}>{latest.data.title}</a>
+        </h2>
+        <p class="latest-meta">
+          {fullDate(latest.data.publishedAt)}
+          {latestReadingTime && <> · {latestReadingTime}</>}
+        </p>
+        {latest.data.description && (
+          <p class="latest-desc">
+            {latest.data.description}{" "}
+            <a href={`/writing/${latest.slug}`} class="keep-reading">Keep reading →</a>
+          </p>
+        )}
+      </section>
+    )}
+
+    <hr class="section-divider" />
+
+    {topics.length > 0 && (
+      <section class="topics-section">
+        <p class="section-label">Topics</p>
+        <p class="topic-list">
+          {topics.map((topic, i) => (
+            <>
+              <a
+                href={`/writing/topic/${topic.toLowerCase().replace(/\s+/g, "-")}`}
+                class="topic-link"
+              >{topic}</a>{i < topics.length - 1 ? <span class="topic-comma">, </span> : null}
+            </>
+          ))}
+        </p>
+      </section>
+    )}
+
+    <hr class="section-divider" />
+
+    {posts.length > 0 && (
+      <section class="archive-section">
+        <p class="section-label">Writing</p>
+        <ul class="archive-list" role="list">
           {posts.map((post) => (
-            <li class="post-item">
-              <time class="post-date" datetime={post.data.publishedAt.toISOString()}>
-                {formatDateShort(post.data.publishedAt)}, {getYear(post.data.publishedAt)}
+            <li class="archive-row">
+              <time class="archive-date" datetime={post.data.publishedAt.toISOString()}>
+                {archiveDate(post.data.publishedAt)}
               </time>
-              <a href={`/writing/${post.slug}`} class="post-title">
+              <a href={`/writing/${post.slug}`} class="archive-title">
                 {post.data.title}
               </a>
-              {post.data.tags.length > 0 && (
-                <span class="post-tags">
-                  {post.data.tags.slice(0, 2).join(" · ")}
-                </span>
-              )}
             </li>
           ))}
         </ul>
-      ) : (
-        <p class="empty">Nothing published yet.</p>
-      )}
-      <div class="section-footer">
-        <a href="/rss.xml" class="rss-link">RSS</a>
-      </div>
-    </section>
+      </section>
+    )}
+
   </div>
 </BaseLayout>
 
 <style>
-  .home-page {
-    padding-top: 4rem;
-    padding-bottom: 3rem;
-  }
-
-  .home-section {
-    margin-bottom: 3rem;
+  .writing-page {
+    padding-block: 3rem;
   }
 
   .section-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 0.875rem;
     color: var(--muted);
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
   }
 
-  .post-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
+  .latest-section {
+    margin-bottom: 2.5rem;
   }
 
-  .post-item {
-    display: grid;
-    grid-template-columns: 7rem 1fr auto;
-    gap: 0.75rem;
-    align-items: baseline;
-    padding-block: 0.625rem;
-    border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  .latest-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--heading);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
   }
 
-  .post-item:last-child {
-    border-bottom: none;
-  }
-
-  .post-date {
-    font-size: 0.8125rem;
-    color: var(--muted);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .post-title {
-    font-size: 0.9375rem;
-    color: var(--text);
+  .latest-title a {
+    color: inherit;
     text-decoration: none;
     transition: color 120ms ease;
-    font-weight: 450;
   }
 
-  .post-title:hover {
+  .latest-title a:hover {
     color: var(--link-hover);
   }
 
-  .post-tags {
-    font-size: 0.75rem;
+  .latest-meta {
+    font-size: 0.875rem;
     color: var(--muted);
-    white-space: nowrap;
+    margin-bottom: 0.625rem;
   }
 
-  .empty {
+  .latest-desc {
     font-size: 0.9375rem;
     color: var(--muted);
+    line-height: 1.6;
   }
 
-  .section-footer {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 1.25rem;
-  }
-
-  .rss-link {
-    font-size: 0.8125rem;
+  .keep-reading {
     color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 120ms ease;
+  }
+
+  .keep-reading:hover {
+    color: var(--text);
+  }
+
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin-block: 2.5rem;
+  }
+
+  .topics-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .topic-list {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+
+  .topic-link {
+    color: var(--link);
     text-decoration: none;
     transition: color 120ms ease;
   }
 
-  .rss-link:hover {
-    color: var(--text);
+  .topic-link:hover {
+    color: var(--link-hover);
   }
 
-  @media (max-width: 560px) {
-    .post-item {
-      grid-template-columns: 1fr;
-      gap: 0.25rem;
-    }
+  .topic-comma {
+    color: var(--muted);
+  }
 
-    .post-tags {
-      display: none;
+  .archive-section {
+    margin-bottom: 2rem;
+  }
+
+  .archive-list {
+    list-style: none;
+  }
+
+  .archive-row {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding-block: 0.3125rem;
+  }
+
+  .archive-date {
+    font-size: 0.875rem;
+    color: var(--muted);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .archive-title {
+    font-size: 0.9375rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+
+  .archive-title:hover {
+    color: var(--link-hover);
+  }
+
+  @media (max-width: 480px) {
+    .archive-row {
+      grid-template-columns: 6rem 1fr;
+      gap: 0.75rem;
     }
   }
 </style>

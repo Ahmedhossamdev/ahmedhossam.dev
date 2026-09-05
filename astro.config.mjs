@@ -13,8 +13,8 @@ export default defineConfig({
   markdown: {
     shikiConfig: {
       themes: {
-        dark: "github-dark-dimmed",
-        light: "github-light",
+        dark: "gruvbox-dark-medium",
+        light: "gruvbox-light-medium",
       },
       wrap: false,
     },
