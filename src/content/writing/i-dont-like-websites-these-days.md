@@ -45,7 +45,7 @@ These are the kind of sites I keep coming back to, and the kind I want this site
 - [Derek Sivers](https://sive.rs/): barely any design, mostly writing about programming, life, and books.
 - [Julia Evans](https://jvns.ca/): a simple technical blog about things she's learning.
 - [Mitchell Hashimoto](https://mitchellh.com/): quiet interface, the writing does the work.
-- [Tania Rascia](https://www.taniarascia.com/): a developer site that doesn't feel like a portfolio.
+
 
 What I take from them: the reader reaches the content immediately, with no ads, popups, animations, or engagement counters. Few colors, good typography, simple navigation. Personal, not corporate.
 
