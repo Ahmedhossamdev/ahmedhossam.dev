@@ -24,6 +24,14 @@ function isCurrent(path: string) {
     localStorage.setItem("theme", next);
     updateToggle();
   });
+
+  // Follow system preference dynamically if the user hasn't manually chosen
+  window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", (e) => {
+    if (!localStorage.getItem("theme")) {
+      document.documentElement.dataset.theme = e.matches ? "light" : "dark";
+      updateToggle();
+    }
+  });
 </script>
 
 <header class="site-header">

@@ -11,6 +11,7 @@ interface Props {
   tags?: string[];
   readingTime?: string;
   links?: Array<{ text: string; url: string; hostname: string }>;
+  ogImage?: string;
   canonicalUrl?: string;
   prevPost?: { title: string; slug: string } | null;
   nextPost?: { title: string; slug: string } | null;
@@ -24,6 +25,7 @@ const {
   tags = [],
   readingTime,
   links = [],
+  ogImage,
   canonicalUrl,
   prevPost,
   nextPost,
@@ -35,6 +37,7 @@ const {
   description={description}
   canonicalUrl={canonicalUrl}
   ogType="article"
+  ogImage={ogImage}
   publishedAt={publishedAt}
   updatedAt={updatedAt}
 >
@@ -120,6 +123,10 @@ const {
           </nav>
         )
       }
+
+      <p class="support-line">
+        If this was useful, you can <a href="https://ko-fi.com/ahmedhossamdev" target="_blank" rel="noopener noreferrer" class="support-link">buy me a coffee</a>.
+      </p>
 
       <div class="article-footer-links">
         <a href="/rss.xml" class="footer-link">RSS</a>
@@ -295,6 +302,25 @@ const {
 
   .footer-link:hover {
     color: var(--text);
+  }
+
+  .support-line {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .support-link {
+    color: var(--muted);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--muted) 40%, transparent);
+    text-underline-offset: 3px;
+    transition: color 120ms ease, text-decoration-color 120ms ease;
+  }
+
+  .support-link:hover {
+    color: var(--text);
+    text-decoration-color: var(--text);
   }
 
   @media (max-width: 560px) {

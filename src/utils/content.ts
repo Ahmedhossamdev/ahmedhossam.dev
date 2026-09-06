@@ -28,6 +28,12 @@ export function getReadingTime(body: string | undefined): string | undefined {
   return text;
 }
 
+export function extractFirstImage(body: string | undefined): string | undefined {
+  if (!body) return undefined;
+  const match = body.match(/!\[[^\]]*\]\(([^)]+)\)/);
+  return match ? match[1] : undefined;
+}
+
 export function extractLinks(body: string | undefined): Array<{ text: string; url: string; hostname: string }> {
   if (!body) return [];
   const regex = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
