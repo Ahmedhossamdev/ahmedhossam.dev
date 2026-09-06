@@ -1,6 +1,6 @@
 ---
 import ArticleLayout from "@/layouts/ArticleLayout.astro";
-import { getReadingTime, getPublishedWriting, extractLinks, extractFirstImage } from "@/utils/content";
+import { getReadingTime, getPublishedWriting, extractLinks } from "@/utils/content";
 
 export async function getStaticPaths() {
   const posts = await getPublishedWriting();
@@ -18,8 +18,6 @@ const { post, prevPost, nextPost } = Astro.props;
 const { Content } = await post.render();
 const readingTime = getReadingTime(post.body);
 const links = extractLinks(post.body);
-const heroImage = extractFirstImage(post.body);
-const ogImage = heroImage ?? `/og/${post.slug}.png`;
 ---
 
 <ArticleLayout
@@ -30,7 +28,7 @@ const ogImage = heroImage ?? `/og/${post.slug}.png`;
   tags={post.data.tags}
   readingTime={readingTime}
   links={links}
-  ogImage={ogImage}
+  ogImage={`/og/${post.slug}.png`}
   canonicalUrl={new URL(`/writing/${post.slug}`, Astro.site).href}
   prevPost={prevPost ? { title: prevPost.data.title, slug: prevPost.slug } : null}
   nextPost={nextPost ? { title: nextPost.data.title, slug: nextPost.slug } : null}

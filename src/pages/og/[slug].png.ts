@@ -1,15 +1,18 @@
 import type { APIRoute } from "astro";
-import { getPublishedWriting } from "@/utils/content";
+import { getPublishedWriting, extractFirstImage } from "@/utils/content";
 import satori from "satori";
 import sharp from "sharp";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
 export async function getStaticPaths() {
   const posts = await getPublishedWriting();
   return posts.map((post) => ({
     params: { slug: post.slug },
-    props: { title: post.data.title },
+    props: {
+      title: post.data.title,
+      heroImage: extractFirstImage(post.body),
+    },
   }));
 }
 
@@ -17,8 +20,26 @@ const fontRegular = readFileSync(resolve("src/assets/inter-regular.ttf"));
 const fontBold = readFileSync(resolve("src/assets/inter-bold.ttf"));
 
 export const GET: APIRoute = async ({ props }) => {
-  const { title } = props as { title: string };
+  const { title, heroImage } = props as { title: string; heroImage?: string };
 
+  // If article has a hero image, crop and resize it to 1200x630
+  if (heroImage) {
+    const imagePath = resolve(`public${heroImage}`);
+    if (existsSync(imagePath)) {
+      const png = await sharp(imagePath)
+        .resize(1200, 630, { fit: "cover", position: "center" })
+        .png({ quality: 85 })
+        .toBuffer();
+      return new Response(png, {
+        headers: {
+          "Content-Type": "image/png",
+          "Cache-Control": "public, max-age=31536000, immutable",
+        },
+      });
+    }
+  }
+
+  // Fall back to generated title card
   const fontSize = title.length > 50 ? "48px" : "60px";
 
   const svg = await satori(
