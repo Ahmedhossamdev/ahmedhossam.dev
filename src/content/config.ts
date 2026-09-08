@@ -12,6 +12,16 @@ const writing = defineCollection({
   }),
 });
 
+const notes = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string().optional(),
+    publishedAt: z.coerce.date(),
+    updatedAt: z.coerce.date().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
 const projects = defineCollection({
   type: "content",
   schema: z.object({
@@ -26,4 +36,4 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { writing, projects };
+export const collections = { writing, notes, projects };

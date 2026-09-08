@@ -1,5 +1,5 @@
 ---
-title: "When Did We Stop Looking Up?"
+title: "When did we stop looking up?"
 description: "Why simply looking at the night sky makes your problems smaller and your thinking bigger."
 publishedAt: 2026-09-06
 draft: false

@@ -1,5 +1,5 @@
 ---
-title: "I Don't Like Websites These Days"
+title: "I don't like websites these days"
 description: "I open a website because I want to read something. Why is that becoming difficult?"
 publishedAt: 2026-09-05
 draft: false

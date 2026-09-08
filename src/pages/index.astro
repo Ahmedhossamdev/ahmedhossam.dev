@@ -1,8 +1,9 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getPublishedWriting, getReadingTime } from "@/utils/content";
+import { getPublishedNotes, getPublishedWriting, getReadingTime } from "@/utils/content";
 
 const posts = await getPublishedWriting();
+const recentNotes = (await getPublishedNotes()).slice(0, 3);
 const latest = posts[0];
 const latestReadingTime = latest ? getReadingTime(latest.body) : null;
 
@@ -25,6 +26,18 @@ function fullDate(date: Date): string {
     day: "numeric",
     year: "numeric",
   });
+}
+
+function notePreview(body: string | undefined, title?: string): string {
+  const text = title ?? body ?? "Untitled note";
+  const plainText = text
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, "")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[`*_>#~-]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return plainText.length > 100 ? `${plainText.slice(0, 97).trimEnd()}…` : plainText;
 }
 ---
 
@@ -90,6 +103,31 @@ function fullDate(date: Date): string {
         </ul>
       </section>
     )}
+
+    <hr class="section-divider" />
+
+    <section class="recent-notes-section">
+      <div class="section-heading">
+        <p class="section-label">Recent notes</p>
+        <a href="/notes" class="all-notes-link">All notes →</a>
+      </div>
+      {recentNotes.length > 0 ? (
+        <ul class="recent-notes-list" role="list">
+          {recentNotes.map((note) => (
+            <li class="recent-note-row">
+              <time class="recent-note-date" datetime={note.data.publishedAt.toISOString()}>
+                {archiveDate(note.data.publishedAt)}
+              </time>
+              <a href={`/notes#${note.slug}`} class="recent-note-link">
+                {notePreview(note.body, note.data.title)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="empty-notes">Nothing here yet.</p>
+      )}
+    </section>
 
   </div>
 </BaseLayout>
@@ -169,12 +207,17 @@ function fullDate(date: Date): string {
 
   .topic-link {
     color: var(--link);
-    text-decoration: none;
-    transition: color 120ms ease;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
+    text-underline-offset: 3px;
+    transition:
+      color 120ms ease,
+      text-decoration-color 120ms ease;
   }
 
   .topic-link:hover {
     color: var(--link-hover);
+    text-decoration-color: var(--link-hover);
   }
 
   .topic-comma {
@@ -207,21 +250,86 @@ function fullDate(date: Date): string {
   .archive-title {
     font-size: 0.9375rem;
     color: var(--text);
-    text-decoration: none;
-    transition: color 120ms ease;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--text) 30%, transparent);
+    text-underline-offset: 3px;
+    transition:
+      color 120ms ease,
+      text-decoration-color 120ms ease;
   }
 
   .archive-title:hover {
     color: var(--link-hover);
+    text-decoration-color: var(--link-hover);
+  }
+
+  .recent-notes-section {
+    margin-bottom: 2rem;
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .all-notes-link {
+    color: var(--muted);
+    font-size: 0.8125rem;
+    text-decoration: none;
+  }
+
+  .all-notes-link:hover {
+    color: var(--link-hover);
+  }
+
+  .recent-notes-list {
+    list-style: none;
+  }
+
+  .recent-note-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: baseline;
+    padding-block: 0.375rem;
+  }
+
+  .recent-note-date {
+    color: var(--muted);
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .recent-note-link {
+    color: var(--text);
+    font-family: var(--font-reading);
+    font-size: 1rem;
+    line-height: 1.5;
+    text-decoration-color: color-mix(in srgb, var(--text) 30%, transparent);
+  }
+
+  .recent-note-link:hover {
+    color: var(--link-hover);
+    text-decoration-color: var(--link-hover);
+  }
+
+  .empty-notes {
+    color: var(--muted);
+    font-size: 0.875rem;
   }
 
   @media (max-width: 480px) {
-    .archive-row {
+    .archive-row,
+    .recent-note-row {
       grid-template-columns: 1fr;
       gap: 0;
     }
 
-    .archive-date {
+    .archive-date,
+    .recent-note-date {
       display: none;
     }
 

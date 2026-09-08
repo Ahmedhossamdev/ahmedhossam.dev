@@ -10,6 +10,15 @@ export async function getPublishedWriting() {
   );
 }
 
+export async function getPublishedNotes() {
+  const notes = await getCollection("notes", ({ data }) => {
+    return !data.draft;
+  });
+  return notes.sort(
+    (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+  );
+}
+
 export async function getFeaturedProjects() {
   const projects = await getCollection("projects");
   return projects

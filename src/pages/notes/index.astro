@@ -1,0 +1,105 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import "@/styles/article.css";
+import { getPublishedNotes } from "@/utils/content";
+import { formatDate } from "@/utils/dates";
+
+const notes = await getPublishedNotes();
+const renderedNotes = await Promise.all(
+  notes.map(async (note) => ({
+    note,
+    Content: (await note.render()).Content,
+  }))
+);
+---
+
+<BaseLayout
+  title="Notes"
+  description="Short updates, thoughts, and things Ahmed Hossam is learning."
+>
+  <div class="content-shell notes-page">
+    <header class="page-header">
+      <h1>Notes</h1>
+      <p>Short updates, thoughts, and things I’m learning.</p>
+    </header>
+
+    {
+      renderedNotes.length > 0 ? (
+        <div class="notes-list">
+          {renderedNotes.map(({ note, Content }) => (
+            <article class="note" id={note.slug}>
+              {note.data.title && (
+                <h2 class="note-title">{note.data.title}</h2>
+              )}
+              <div class="article-body note-body">
+                <Content />
+              </div>
+              <time class="note-date" datetime={note.data.publishedAt.toISOString()}>
+                {formatDate(note.data.publishedAt)}
+              </time>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="empty-note">Notes will show up here as I post them.</p>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .notes-page {
+    padding-block: 3rem;
+  }
+
+  .page-header {
+    margin-bottom: 3rem;
+  }
+
+  .page-header h1 {
+    color: var(--heading);
+    font-size: clamp(1.875rem, 5vw, 2.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.5rem;
+  }
+
+  .page-header p,
+  .empty-note {
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .notes-list {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .note {
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .note:last-child {
+    border-bottom: 0;
+  }
+
+  .note-title {
+    color: var(--heading);
+    font-size: 1.125rem;
+    line-height: 1.35;
+    margin-bottom: 0.75rem;
+  }
+
+  .note-body :global(> :last-child) {
+    margin-bottom: 0;
+  }
+
+  .note-date {
+    display: inline-block;
+    margin-top: 0.875rem;
+    color: var(--muted);
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+  }
+</style>

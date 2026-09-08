@@ -2,8 +2,10 @@
 
 .article-body {
   color: var(--text);
-  font-size: 1rem;
-  line-height: 1.75;
+  font-family: var(--font-reading);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  font-optical-sizing: auto;
 }
 
 /* Headings */
