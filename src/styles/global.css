@@ -27,8 +27,8 @@
 :root {
   color-scheme: dark;
 
-  --bg:             var(--flexoki-950);
-  --surface:        var(--flexoki-900);
+  --bg:             color-mix(in srgb, var(--flexoki-950) 35%, var(--flexoki-black));
+  --surface:        color-mix(in srgb, var(--flexoki-900) 45%, var(--flexoki-950));
   --surface-subtle: var(--flexoki-black);
   --code-bg:        var(--flexoki-black);
 
