@@ -307,13 +307,13 @@ function notePreview(body: string | undefined, title?: string): string {
     color: var(--text);
     font-family: var(--font-reading);
     font-size: 1rem;
+    font-style: italic;
     line-height: 1.5;
-    text-decoration-color: color-mix(in srgb, var(--text) 30%, transparent);
+    text-decoration: none;
   }
 
   .recent-note-link:hover {
     color: var(--link-hover);
-    text-decoration-color: var(--link-hover);
   }
 
   .empty-notes {
