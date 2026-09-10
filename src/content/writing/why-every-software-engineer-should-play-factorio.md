@@ -2,7 +2,7 @@
 title: "Why every software engineer should play Factorio"
 description: "A factory-building game made bottlenecks, queues, scaling, and system design feel surprisingly real."
 publishedAt: 2026-09-10
-draft: false
+draft: true
 tags:
   - software
   - systems
