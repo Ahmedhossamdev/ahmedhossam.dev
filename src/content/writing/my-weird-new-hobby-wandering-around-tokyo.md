@@ -1,6 +1,6 @@
 ---
 title: "My Weird New Hobby: Wandering Around Tokyo on Google Maps"
-description: "My weird hobby lately is just wandering around Street View and zooming in on random stuff. Today I found a 350Z that's been sitting in Tokyo since 2009."
+description: "My weird hobby lately is just wandering around Street View and zooming in on random stuff. Today I found a 350Z that shows up parked in the same Tokyo spot in every capture since 2009."
 publishedAt: 2026-09-18
 draft: false
 tags:
@@ -15,7 +15,7 @@ My weird hobby lately is just wandering around Street View and zooming in on ran
 
 Today I found a 350Z in Tokyo. It's just sitting there on the side of [this narrow street](https://www.google.com/maps/place/Tokyo,+Japan/@35.6769754,139.6517634,3a,90y,358.61h,94.65t/data=!3m7!1e1!3m5!1s55xDvo6f4U1RRDmjf9rGLA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-4.652032382917497%26panoid%3D55xDvo6f4U1RRDmjf9rGLA%26yaw%3D358.610870155596!7i16384!8i8192!4m6!3m5!1s0x605d1b87f02e57e7:0x2e01618b22571b89!8m2!3d35.6764225!4d139.650027!16zL20vMDdkZms?entry=tts), and when I flipped to the oldest photos of that spot, there it was too. Same street. Same place. 2009.
 
-That car has been there for like 17 years. Every time the Google car drove by, there it was, still parked. Still waiting.
+Every capture since 2009 shows it parked in that same spot, like 17 years of never leaving. Though honestly, look how clean it is. Nobody abandons a car for 17 years and it stays that clean. Someone clearly drives it and just always parks it back home. But from Google's point of view, it never left. Still parked. Still waiting.
 
 ![The same narrow Tokyo street in a 2009 Street View capture, with a white 350Z parked in the same spot](/images/tokyo-350z-2009.jpg)
 
@@ -46,3 +46,15 @@ Anyway, if you haven't tried this, do it. Pick any city, drop the little guy on 
 Maybe I'll find another 350Z somewhere.
 
 lol.
+
+## Update: the 350Z is gone
+
+I posted this on Reddit, and someone who lives in Tokyo actually went to the street to check. He found the exact spot, you can tell by the mailbox on the wall. But the car is gone. The whole house is gone too. Torn down and replaced with something new.
+
+Here is what he wrote:
+
+> So, as is often the case in Japan, several of the houses around there have been torn down and replaced in the 4 years since that last street view. I found the exact spot, though, you can tell by the mailbox on the wall. The white 350Z is gone, as you can see, along with the whole house! It's all new.
+
+![The same Tokyo street today, photographed in person: the old house and the white 350Z are gone, replaced by a new building](/images/tokyo-350z-gone.jpg)
+
+So the 350Z showed up in that same spot for 17 years, and now it only exists in old Street View captures. The time capsule outlived the street itself. I think that makes me like this hobby even more.
