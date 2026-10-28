@@ -15,9 +15,13 @@ const topics = [...tagSet].sort((a, b) => a.localeCompare(b));
 
 function archiveDate(date: Date): string {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const month = date.toLocaleDateString("en-US", { month: "short" });
   const day = String(date.getDate()).padStart(2, "0");
-  return `${year}·${month}·${day}`;
+  return `${year} ${month} ${day}`;
+}
+
+function tagSlug(tag: string): string {
+  return tag.toLowerCase().replace(/\s+/g, "-");
 }
 
 function fullDate(date: Date): string {
@@ -75,8 +79,9 @@ function notePreview(body: string | undefined, title?: string): string {
           {topics.map((topic, i) => (
             <>
               <a
-                href={`/writing/topic/${topic.toLowerCase().replace(/\s+/g, "-")}`}
+                href={`/writing/topic/${tagSlug(topic)}`}
                 class="topic-link"
+                data-topic={tagSlug(topic)}
               >{topic}</a>{i < topics.length - 1 ? <span class="topic-comma">, </span> : null}
             </>
           ))}
@@ -91,7 +96,7 @@ function notePreview(body: string | undefined, title?: string): string {
         <p class="section-label">Writing</p>
         <ul class="archive-list" role="list">
           {posts.map((post) => (
-            <li class="archive-row">
+            <li class="archive-row" data-tags={post.data.tags.map(tagSlug).join("|")}>
               <time class="archive-date" datetime={post.data.publishedAt.toISOString()}>
                 {archiveDate(post.data.publishedAt)}
               </time>
@@ -131,6 +136,41 @@ function notePreview(body: string | undefined, title?: string): string {
 
   </div>
 </BaseLayout>
+
+<script>
+  const topicLinks = document.querySelectorAll<HTMLElement>("[data-topic]");
+  const archiveRows = document.querySelectorAll<HTMLElement>(".archive-row[data-tags]");
+
+  function clearHighlight() {
+    archiveRows.forEach((row) => {
+      row.classList.remove("is-related", "is-dimmed");
+    });
+  }
+
+  function highlightTopic(topic: string) {
+    clearHighlight();
+
+    let hasMatch = false;
+    archiveRows.forEach((row) => {
+      const related = (row.dataset.tags ?? "").split("|").includes(topic);
+      row.classList.toggle("is-related", related);
+      row.classList.toggle("is-dimmed", !related);
+      if (related) hasMatch = true;
+    });
+
+    if (!hasMatch) clearHighlight();
+  }
+
+  topicLinks.forEach((link) => {
+    const topic = link.dataset.topic;
+    if (!topic) return;
+
+    link.addEventListener("mouseenter", () => highlightTopic(topic));
+    link.addEventListener("mouseleave", clearHighlight);
+    link.addEventListener("focus", () => highlightTopic(topic));
+    link.addEventListener("blur", clearHighlight);
+  });
+</script>
 
 <style>
   .writing-page {
@@ -238,6 +278,27 @@ function notePreview(body: string | undefined, title?: string): string {
     gap: 0.5rem;
     align-items: baseline;
     padding-block: 0.3125rem;
+    padding-inline: 0.5rem;
+    margin-inline: -0.5rem;
+    border-radius: 4px;
+    transition:
+      background-color 150ms ease,
+      box-shadow 150ms ease,
+      opacity 150ms ease;
+  }
+
+  .archive-row.is-related {
+    background: color-mix(in srgb, var(--link) 10%, transparent);
+    box-shadow: inset 2px 0 0 var(--link);
+  }
+
+  .archive-row.is-related .archive-title {
+    color: var(--link-hover);
+    text-decoration-color: var(--link-hover);
+  }
+
+  .archive-row.is-dimmed {
+    opacity: 0.35;
   }
 
   .archive-date {
@@ -328,15 +389,17 @@ function notePreview(body: string | undefined, title?: string): string {
       gap: 0;
     }
 
+    .archive-row {
+      padding-block: 0.5rem;
+    }
+
+    .recent-note-row {
+      padding-block: 0.4375rem;
+    }
+
     .archive-date,
     .recent-note-date {
       display: none;
-    }
-
-    .archive-title::before {
-      content: "·";
-      color: var(--muted);
-      margin-right: 0.4rem;
     }
   }
 </style>
