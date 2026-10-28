@@ -17,56 +17,80 @@ const projects = await getAllProjects();
       </p>
     </header>
 
-    {
-      projects.length === 0 ? (
-        <p class="empty">Nothing here yet.</p>
-      ) : (
-        <ul class="project-list" role="list">
-          {projects.map((project) => {
-            return (
-              <li class="project-item">
-                <div class="project-header">
-                  <h2 class="project-name">{project.data.name}</h2>
-                  {project.data.status && (
-                    <span class={`project-status status-${project.data.status}`}>
-                      {project.data.status}
-                    </span>
+    <a
+      class="github-card"
+      href="https://github.com/Ahmedhossamdev"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span class="github-icon" aria-hidden="true">
+        <svg viewBox="0 0 16 16" role="img" focusable="false">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+        </svg>
+      </span>
+      <span class="github-card-text">
+        <span class="github-card-title">See all my open source work on GitHub</span>
+        <span class="github-card-desc">
+          Repositories, contributions, and the things I build in the open.
+        </span>
+      </span>
+      <span class="github-card-arrow" aria-hidden="true">&#8599;</span>
+    </a>
+
+    <section class="current-section">
+      <p class="section-label">Currently working on</p>
+
+      {
+        projects.length === 0 ? (
+          <p class="empty">Nothing here yet.</p>
+        ) : (
+          <ul class="project-grid" role="list">
+            {projects.map((project) => {
+              return (
+                <li class="project-card">
+                  <div class="project-header">
+                    <h2 class="project-name">{project.data.name}</h2>
+                    {project.data.status && (
+                      <span class={`project-status status-${project.data.status}`}>
+                        {project.data.status}
+                      </span>
+                    )}
+                  </div>
+                  <p class="project-desc">{project.data.description}</p>
+                  {project.data.technologies.length > 0 && (
+                    <p class="project-tech">
+                      {project.data.technologies.join(" · ")}
+                    </p>
                   )}
-                </div>
-                <p class="project-desc">{project.data.description}</p>
-                {project.data.technologies.length > 0 && (
-                  <p class="project-tech">
-                    {project.data.technologies.join(" · ")}
-                  </p>
-                )}
-                <div class="project-links">
-                  {project.data.repository && (
-                    <a
-                      href={project.data.repository}
-                      class="project-link"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Repository
-                    </a>
-                  )}
-                  {project.data.website && (
-                    <a
-                      href={project.data.website}
-                      class="project-link"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Website
-                    </a>
-                  )}
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      )
-    }
+                  <div class="project-links">
+                    {project.data.repository && (
+                      <a
+                        href={project.data.repository}
+                        class="project-link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Repository
+                      </a>
+                    )}
+                    {project.data.website && (
+                      <a
+                        href={project.data.website}
+                        class="project-link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Website
+                      </a>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )
+      }
+    </section>
   </div>
 </BaseLayout>
 
@@ -92,19 +116,101 @@ const projects = await getAllProjects();
     color: var(--muted);
   }
 
-  .project-list {
-    list-style: none;
+  .github-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.125rem 1.25rem;
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--text) 2%, transparent);
+    text-decoration: none;
+    transition:
+      border-color 150ms ease,
+      background-color 150ms ease;
+  }
+
+  .github-card:hover {
+    border-color: color-mix(in srgb, var(--link) 45%, var(--border));
+    background: color-mix(in srgb, var(--link) 6%, transparent);
+  }
+
+  .github-icon {
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+    transition: color 150ms ease;
+  }
+
+  .github-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: currentColor;
+  }
+
+  .github-card:hover .github-icon {
+    color: var(--link-hover);
+  }
+
+  .github-card-text {
     display: flex;
     flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
   }
 
-  .project-item {
-    padding-block: 1.75rem;
-    border-bottom: 1px solid var(--border);
+  .github-card-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--heading);
   }
 
-  .project-item:first-child {
-    border-top: 1px solid var(--border);
+  .github-card-desc {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .github-card-arrow {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1;
+    transition:
+      color 150ms ease,
+      transform 150ms ease;
+  }
+
+  .github-card:hover .github-card-arrow {
+    color: var(--link-hover);
+    transform: translate(2px, -2px);
+  }
+
+  .section-label {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .project-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color 150ms ease;
+  }
+
+  .project-card:hover {
+    border-color: color-mix(in srgb, var(--link) 30%, var(--border));
   }
 
   .project-header {
@@ -141,12 +247,13 @@ const projects = await getAllProjects();
   .project-tech {
     font-size: 0.8125rem;
     color: var(--muted);
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
   }
 
   .project-links {
     display: flex;
     gap: 1rem;
+    margin-top: auto;
   }
 
   .project-link {
@@ -163,5 +270,20 @@ const projects = await getAllProjects();
   .empty {
     color: var(--muted);
     font-size: 0.9375rem;
+  }
+
+  @media (max-width: 640px) {
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .github-card {
+      align-items: flex-start;
+      padding: 1rem;
+    }
+
+    .github-card-desc {
+      display: none;
+    }
   }
 </style>
