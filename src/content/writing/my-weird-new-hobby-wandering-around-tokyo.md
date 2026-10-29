@@ -9,6 +9,11 @@ tags:
   - thoughts
 ---
 
+<div class="callout callout--note">
+  <p class="callout-label">Update</p>
+  <p>This post made it to the top 5 on Hacker News. I did not expect that at all, and I really did not expect how many of you would love this weird little story. So I'm turning the hobby into a game. More details coming soon, but you can try the beta version now: <a href="https://streetviewtogether.com/" target="_blank" rel="noopener noreferrer">streetviewtogether.com</a>.</p>
+</div>
+
 ![A quiet Tokyo street seen from Google Street View, parked cars and low houses on a narrow road](/images/tokyo-350z-street-view.jpg)
 
 My weird hobby lately is just wandering around Street View and zooming in on random stuff. Houses, wires, trees, whatever. lol.
